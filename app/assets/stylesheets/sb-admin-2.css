@@ -6,8 +6,39 @@
 body {
   background-color: #f8f8f8;
 }
+
+.video {
+ position: fixed;
+ top: 50%; left: 50%;
+ z-index: -1;
+ min-width: 100%;
+ min-height: 100%;
+ width: auto;
+ height: auto;
+ transform: translate(-50%, -50%);
+}
+
 #wrapper {
   width: 100%;
+}
+#splashy {
+margin-top: 140px;
+}
+
+#splashy3 {
+margin-top: 140px;
+margin-left:550px;
+}
+
+#splashtext{
+  font-size: 150px;
+  margin-bottom:0px;
+  color: white;
+}
+#splashtext2{
+  font-size: 25px;
+  margin-top: 0px;
+  color: white;
 }
 #page-wrapper {
   padding: 0 15px;

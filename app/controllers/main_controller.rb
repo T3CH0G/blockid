@@ -69,11 +69,14 @@ class MainController < ApplicationController
 	end
 
 	def post
-		if params[:time].strftime("%I:%M%p") <= Section.find_by(:section_id).start.strftime("%I:%M%p")
-			Checkin.create(student_id: params[:student_id], section_id: params[:section_id], time: params[:time], status: 'Present')
+		if Time.now.strftime("%I:%M%p") <= Section.find_by(id: params[:section_id]).start.strftime("%I:%M%p")
+			Checkin.create(student_id: params[:student_id], section_id: params[:section_id], time: Time.now, status: 'Present')
 		else
-			Checkin.create(student_id: params[:student_id], section_id: params[:section_id], time: params[:time], status: 'Tardy')
+			Checkin.create(student_id: params[:student_id], section_id: params[:section_id], time: Time.now, status: 'Tardy')
 		end
+	end
+
+	def splash
 	end
 
  end

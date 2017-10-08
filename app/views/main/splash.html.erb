@@ -1,0 +1,59 @@
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>TickIn</title>
+
+    <%= stylesheet_link_tag "sb-admin-2.css" %>
+    <%= video_tag "Disco.mp4", autoplay: :autoplay, loop: :loop, mute: :mute, class: "video" %>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">TickIn</a>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+      </div>
+
+      <div class="row" id='splashy'>
+        <div class='col-md-2'></div>
+        <div class='col-md-8'>
+          <div class='text-center'>
+        <p id="splashtext">TickIn</p>
+        <p id="splashtext2">Bluetooth Solutions</p>
+        <a href="/users/sign_in" class="btn btn-secondary btn-lg">
+                <i class="fa fa-sign-in fa-fw"></i>
+                <span class="network-name">Login</span>
+              </a>
+        </div>
+      </div>
+        <div class='col-md-2'></div>
+      </div>
+  <%=javascript_include_tag "bootstrap.min.js"%>
+</body>
