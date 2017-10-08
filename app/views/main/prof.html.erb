@@ -10,6 +10,21 @@
 
     <%= stylesheet_link_tag "sb-admin-2.css" %>
 
+    <script>
+        $(document).ready(function () {
+            // will call refreshPartial every 3 seconds
+            setInterval(refreshPartial, 3000);
+
+        });
+
+        // calls action refreshing the partial
+        function refreshPartial() {
+          $.ajax({
+            url: "/main/refresh"
+         })
+        }
+    </script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -32,7 +47,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><%=image_tag("meme.gif", size: "80x25")%></a>
+                <a class="navbar-brand" href="/prof/1"><%=image_tag("meme.gif", size: "80x25")%></a>
             </div>
             <!-- /.navbar-header -->
 
@@ -155,27 +170,7 @@
                             <i class="fa fa-comments fa-fw"></i> Chat
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <ul class="chat">
-                                <%k=0%>
-                                <%@messages.each do |x|%>
-                                <li class="left clearfix">
-                                    <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
-                                    </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <strong class="primary-font"><%=@users[k].name%></strong>
-                                        </div>
-                                        <p>
-                                            <%=x.content%>
-                                        </p>
-                                    </div>
-                                </li>
-                                <%k+=1%>
-                                <%end%>
-                            </ul>
-                        </div>
+                        <div id="chaterino"><%= render partial: "chat" %></div>
                         <!-- /.panel-body -->
                         <div class="panel-footer">
                             <div class="input-group">

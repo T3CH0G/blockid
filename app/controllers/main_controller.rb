@@ -5,6 +5,8 @@ require 'date'
 
 class MainController < ApplicationController
 
+skip_before_action :authenticate_user!, only: [:splash]
+
   def prof
   	@title=Section.find_by(id:params[:id]).name
   	@section=Section.find_by(id:params[:id])
@@ -14,7 +16,7 @@ class MainController < ApplicationController
 	  @sections.push(s.name)
 	end
 	@date_arrays=[]
-	Checkin.all.each do |s|
+	Checkin.where(section_id:params[:id]).each do |s|
 		@date_arrays.push(s.time)
 	end
 	@date_arrays=@date_arrays.group_by(&:to_date)
@@ -48,6 +50,7 @@ class MainController < ApplicationController
 			@users.push(Student.find_by(email: x.user.email))
 		end
 	end
+	@data = @messages.zip(@users).to_h
 	end
 
 	def stud
@@ -95,6 +98,23 @@ class MainController < ApplicationController
 	end
 
 	def splash
+	end
+
+	def refresh
+  # get whatever data you need to a variable named @data
+  		@messages=Message.all
+		@users=[]
+		@messages.each do |x|
+			if Professor.find_by(email: x.user.email)
+				@users.push(Professor.find_by(email: x.user.email))
+			else
+				@users.push(Student.find_by(email: x.user.email))
+			end
+		end
+		@data = @messages.zip(@users).to_h
+  		respond_to do |format|
+        format.js
+  		end
 	end
 
  end

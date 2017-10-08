@@ -1,0 +1,28 @@
+<script>
+$(document).ready(function() {
+  var wtf    = $('.panel-body');
+  var height = 1E10;
+  wtf.scrollTop(height);
+});
+</script>
+
+
+<div class="panel-body">
+        <ul class="chat">
+            <%@data.each do |x,y|%>
+            <li class="left clearfix">
+                <span class="chat-img pull-left">
+                    <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                </span>
+                <div class="chat-body clearfix">
+                    <div class="header">
+                        <strong class="primary-font"><%=y.name%></strong>
+                    </div>
+                    <p>
+                        <%=x.content%>
+                    </p>
+                </div>
+            <%end%>
+        </ul>
+</div>
+

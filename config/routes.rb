@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get '/prof/:id', to: 'main#prof', as: 'prof'
   get'/stud/:id', to: 'main#stud', as: 'stud'
   get '/post/:student_id/:section_id' , to:"main#post"
+  post '/main/refresh' , to: 'main#refresh'
+  get '/main/refresh' , to: 'main#refresh'
 
   root to: 'main#splash'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
