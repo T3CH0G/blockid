@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Student:</strong>
+  <%= @checkin.student_id %>
+</p>
+
+<p>
+  <strong>Section:</strong>
+  <%= @checkin.section_id %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @checkin.time %>
+</p>
+
+<%= link_to 'Edit', edit_checkin_path(@checkin) %> |
+<%= link_to 'Back', checkins_path %>

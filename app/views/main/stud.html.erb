@@ -1,0 +1,209 @@
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>TickIn</title>
+
+    <%= stylesheet_link_tag "sb-admin-2.css" %>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">TickIn</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li></a>
+                        
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="std-page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"><%=@user.name%>'s Dashboard</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-check fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><%=@present%></div>
+                                    <div>Present</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-exclamation-triangle fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><%=@tardy%></div>
+                                    <div>Tardy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-times fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><%=@absent%></div>
+                                    <div>Absent</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- /.panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <ul class="timeline">
+                                <%m=0%>
+                                <%@checkins.each do |x|%>
+                                <%if x.status=='Present'%>
+                                <li>
+                                    <div class="timeline-badge"><i class="fa fa-check"></i>
+                                    </div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h4 class="timeline-title"><%=x.status%></h4>
+                                            <p><small class="text-muted"><i class="fa fa-clock-o"></i><%=x.time%></small>
+                                            </p>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <p>Class: <%=@classdeets[m].name%></p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <%elsif x.status=='Absent'%>
+                                <li class="timeline-inverted">
+                                    <div class="timeline-badge danger"><i class="fa fa-bomb"></i>
+                                    </div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h4 class="timeline-title"><%=x.status%></h4>
+                                             <p><small class="text-muted"><i class="fa fa-clock-o"></i><%=x.time%></small>
+                                            </p>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <p>Class: <%=@classdeets[m].name%></p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <%elsif x.status=='Tardy'%>
+                                <li>
+                                    <div class="timeline-badge info"><i class="fa fa-save"></i>
+                                    </div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h4 class="timeline-title"><%=x.status%></h4>
+                                            <p><small class="text-muted"><i class="fa fa-clock-o"></i><%=x.time%></small>
+                                            </p>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <p>Class: <%=@classdeets[m].name%></p>
+                                            <hr>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                    <i class="fa fa-gear"></i> <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">Action</a>
+                                                    </li>
+                                                    <li><a href="#">Another action</a>
+                                                    </li>
+                                                    <li><a href="#">Something else here</a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#">Separated link</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <%end%>
+                                <%m+=1%>
+                                <%end%>
+                            </ul>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+        
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <%=javascript_include_tag "bootstrap.min.js"%>
+
+
+</body>
