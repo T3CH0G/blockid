@@ -5,7 +5,7 @@ require 'date'
 
 class MainController < ApplicationController
 
-skip_before_action :authenticate_user!, only: [:splash,:prof,:post]
+skip_before_action :authenticate_user!, only: [:splash,:post]
 
   def prof
   	@title=Section.find_by(id:params[:id]).name
