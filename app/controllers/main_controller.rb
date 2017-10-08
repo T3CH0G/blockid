@@ -39,6 +39,15 @@ class MainController < ApplicationController
 		end
 	end
 	@presence_array=[k,m]
+	@messages=Message.all
+	@users=[]
+	@messages.each do |x|
+		if Professor.find_by(email: x.user.email)
+			@users.push(Professor.find_by(email: x.user.email))
+		else
+			@users.push(Student.find_by(email: x.user.email))
+		end
+	end
 	end
 
 	def stud
@@ -64,6 +73,15 @@ class MainController < ApplicationController
 			 @tardy+=1
 			else
 			@absent+=1
+		end
+	end
+	@messages=Message.all
+	@users=[]
+	@messages.each do |x|
+		if Professor.find_by(email: x.user.email)
+			@users.push(Professor.find_by(email: x.user.email))
+		else
+			@users.push(Student.find_by(email: x.user.email))
 		end
 	end
 	end
