@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20171007194146) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "checkins", force: :cascade do |t|
     t.integer "student_id"
     t.integer "section_id"
