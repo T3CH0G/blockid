@@ -1,6 +1,6 @@
-require 'Professor'
-require 'Section'
-require 'Checkin'
+require 'professor'
+require 'section'
+require 'checkin'
 require 'date'
 
 class MainController < ApplicationController

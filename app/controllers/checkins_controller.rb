@@ -1,4 +1,4 @@
-require 'Student'
+require 'student'
 class CheckinsController < ApplicationController
   before_action :set_checkin, only: [:show, :edit, :update, :destroy]
 
