@@ -8,9 +8,10 @@ class ApplicationController < ActionController::Base
     def after_sign_in_path_for(resource)
     	p=Professor.find_by(email: current_user.email)
       if p!=nil
-      	redirect_to(prof_path(1))
+        prof_path(p.id)
       else
-      	redirect_to(stud_path(1))
+      	stud_path(1)
       end
   end
 end
+

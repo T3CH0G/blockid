@@ -1,5 +1,5 @@
 require 'student'
-class CheckinsController < ApplicationController
+class BlocksController < ApplicationController
   before_action :set_checkin, only: [:show, :edit, :update, :destroy]
 
   # GET /checkins

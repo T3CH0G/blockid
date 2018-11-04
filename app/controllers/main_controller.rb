@@ -2,56 +2,41 @@ require 'professor'
 require 'section'
 require 'checkin'
 require 'date'
+require "digest"  
+require "pp"   
 
 class MainController < ApplicationController
 
 skip_before_action :authenticate_user!, only: [:splash,:post]
 
-  def prof
-  	@title=Section.find_by(id:params[:id]).name
-  	@section=Section.find_by(id:params[:id])
-	@user= Professor.find_by! email: current_user.email
-	@sections=[]
-	Section.where(professor_id: @user.id).each do |s|
-	  @sections.push(s.name)
-	end
-	@date_arrays=[]
-	Checkin.where(section_id:params[:id]).each do |s|
-		@date_arrays.push(s.time)
-	end
-	@date_arrays=@date_arrays.group_by(&:to_date)
-	@date_keys=@date_arrays.keys
-	@date_keys=@date_keys.map{ |e| e.to_s }
-	@date_keys=@date_keys.sort_by {|s| Date.strptime(s, '%Y-%m-%d')}
-	@date_values=[]
-	@date_arrays.each do |key,value|
-		@date_values.push(value.length)
-	end
-	@checkins=[]
-	Checkin.where(section_id: params[:id]).each do |s|
-		@checkins.push(s)
-	end
-	k=0
-	m=0
-	@checkins.each do |x|
-		if x.time.strftime("%I:%M%p") <= @section.start.strftime("%I:%M%p")
-			k+=1
-		else
-			m+=1
+	def prof
+		@user= Professor.find_by! email: current_user.email
+		@checkins=[]
+		Checkin.where(professor_id: params[:id]).each do |s|
+			@checkins.push(s)
 		end
-	end
-	@presence_array=[k,m]
-	@messages=Message.all
-	@users=[]
-	@messages.each do |x|
-		if Professor.find_by(email: x.user.email)
-			@users.push(Professor.find_by(email: x.user.email))
-		else
-			@users.push(Student.find_by(email: x.user.email))
+		@names = []
+		@checkins.each do |s|
+			x = Student.find_by! id: s.student_id
+			@names.push(x)
 		end
+
+
+
+		#@messages=Message.all
+		#@users=[]
+
+		
+		#@messages.each do |x|
+		#	if Professor.find_by(email: x.user.email)
+		#		@users.push(Professor.find_by(email: x.user.email))
+		#	else
+		#		@users.push(Student.find_by(email: x.user.email))
+		#	end
+		#end
+		#@data = @messages.zip(@users).to_h
 	end
-	@data = @messages.zip(@users).to_h
-	end
+
 
 	def stud
 		@user= Student.find_by! email: current_user.email
@@ -59,42 +44,23 @@ skip_before_action :authenticate_user!, only: [:splash,:post]
 		Checkin.where(student_id: @user.id).each do |s|
 			@checkins.push(s)
 		end
-		@classdeets=[]
-		@checkins.each do |x|
-			y=Section.find_by(id:x.section_id)
-			@classdeets.push(y)
-		end
-		@checkins.reverse!
-
-		@present=0
-		@tardy=0
-		@absent=0
-		@user.checkins.each do |x|
-			if x.status == 'Present'
-			 @present+=1
-			elsif x.status == 'Tardy'
-			 @tardy+=1
-			else
-			@absent+=1
-		end
-	end
-	@messages=Message.all
-	@users=[]
-	@messages.each do |x|
-		if Professor.find_by(email: x.user.email)
-			@users.push(Professor.find_by(email: x.user.email))
-		else
-			@users.push(Student.find_by(email: x.user.email))
-		end
-	end
+		#@messages=Message.all
+		#@users=[]
+		#@messages.each do |x|
+		#	if Professor.find_by(email: x.user.email)
+		#		@users.push(Professor.find_by(email: x.user.email))
+		#	else
+		#		@users.push(Student.find_by(email: x.user.email))
+		#	end
+		#end
 	end
 
 	def post
-		if Time.now.strftime("%I:%M%p") <= Section.find_by(id: params[:section_id]).start.strftime("%I:%M%p")
-			Checkin.create(student_id: params[:student_id], section_id: params[:section_id], time: Time.now, status: 'Present')
-		else
-			Checkin.create(student_id: params[:student_id], section_id: params[:section_id], time: Time.now, status: 'Tardy')
-		end
+		x = Checkin.last()
+		sha = Digest::SHA256.new
+			sha.update( x.id.to_s + Time.now.to_s + params[:data]+ x.hashkey )
+		sha.hexdigest
+		Checkin.create(student_id: params[:student_id], professor_id: params[:professor_id], time: Time.now, status: params[:data].to_s, hashkey: sha, previous_hashkey: x.hashkey)
 	end
 
 	def splash

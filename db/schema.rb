@@ -17,9 +17,11 @@ ActiveRecord::Schema.define(version: 20171008081432) do
 
   create_table "checkins", force: :cascade do |t|
     t.integer "student_id"
-    t.integer "section_id"
+    t.integer "professor_id"
     t.datetime "time"
-    t.string "status", default: "Present"
+    t.string "status"
+    t.string "hashkey"
+    t.string "previous_hashkey"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

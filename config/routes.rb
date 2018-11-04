@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :students
   get '/prof/:id', to: 'main#prof', as: 'prof'
   get'/stud/:id', to: 'main#stud', as: 'stud'
-  get '/post/:student_id/:section_id' , to:"main#post"
+  get '/post/:student_id/:professor_id/:data' , to:"main#post"
   post '/main/refresh' , to: 'main#refresh'
   get '/main/refresh' , to: 'main#refresh'
 

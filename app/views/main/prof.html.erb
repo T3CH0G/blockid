@@ -9,21 +9,7 @@
     <title>TickIn</title>
 
     <%= stylesheet_link_tag "sb-admin-2.css" %>
-
-    <script>
-        $(document).ready(function () {
-            // will call refreshPartial every 3 seconds
-            setInterval(refreshPartial, 3000);
-
-        });
-
-        // calls action refreshing the partial
-        function refreshPartial() {
-          $.ajax({
-            url: "/main/refresh"
-         })
-        }
-    </script>
+    <%=javascript_include_tag "bootstrap.min.js"%>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/prof/1"><%=image_tag("meme.gif", size: "80x25")%></a>
+                <a class="navbar-brand" href="/stud/1"><%=image_tag("meme.png", size: "30x30")%></a>
             </div>
             <!-- /.navbar-header -->
 
@@ -65,144 +51,79 @@
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                Welcome, <%=@user.name%>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        <%k=1%>
-                        <%@sections.each do |i|%>
-                        <li>
-                            <a href="/prof/<%=k%>"><i class="fa fa-table fa-fw"></i> <%=i%></a>
-                            <%k+=1%>
-                        </li>
-                        <%end%>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
             <!-- /.navbar-static-side -->
         </nav>
 
-        <div id="page-wrapper">
+        <div id="std-page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header"><%=@title%> Dashboard</h1>
+                    <h1 class="page-header"><%=@user.name%>'s Dashboard</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
+            <!-- /.row -->
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Attendance
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <%=render "profgraph"%>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
+                <div class="col-lg-12">
                     <!-- /.panel -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Student Check-in Log
+                            <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Student ID</th>
-                                                    <th>Student Name</th>
-                                                    <th>Check-In Time</th>
-                                                    <th>Attendance Points</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%@checkins.each do |x|%>
-                                                <tr>
-                                                    <td><%=x.student_id%></td>
-                                                    <td><%=x.student.name%></td>
-                                                    <td><%=x.time%></td>
-                                                    <%if x.time.strftime("%I:%M%p") <= @section.start.strftime("%I:%M%p")%>
-                                                    <td>1</td>
-                                                    <%else%>
-                                                    <td>0</td>
-                                                    <%end%>
-                                                </tr>
-                                                <%end%>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- /.table-responsive -->
-                                </div>
-                                <!-- /.col-lg-4 (nested) -->
-                            </div>
-                            <!-- /.row -->
+                            <ul class="timeline">
+                                <%m=0%>
+                                <%@checkins.each do |x|%>
+                                <%if m%2==1%>
+                                    <li>
+                                        <div class="timeline-badge"><i class="fa fa-check"></i>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title"><%=x.status%></h4>
+                                                <p>Block Hash:</p>
+                                                <p><%=x.hashkey%></p>
+                                                <p>User: <%=@names[m].name%></p>
+                                                <p><small class="text-muted"><i class="fa fa-clock-o"></i><%=x.time%></small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <%else%>
+                                    <li class="timeline-inverted">
+                                        <div class="timeline-badge"><i class="fa fa-check"></i>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title"><%=x.status%></h4>
+                                                <p>Block Hash:</p>
+                                                <p><%=x.hashkey%></p>
+                                                <p><small class="text-muted"><i class="fa fa-clock-o"></i><%=x.time%></small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <%end%>
+                                <%m+=1%>
+                                <%end%>
+                            </ul>
                         </div>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-8 -->
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Overall Lecture Breakdown
-                        </div>
-                        <div class="panel-body">
-                            <%=render "profgraph2"%>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                    <div class="chat-panel panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-comments fa-fw"></i> Chat
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div id="chaterino"><%= render partial: "chat" %></div>
-                        <!-- /.panel-body -->
-                        <div class="panel-footer">
-                            <div class="input-group">
-                                <form action="/messages/" class="new_message" id="new_message" method="post">
-                                <input id="message_user_id" name="message[user_id]" size="30" type="hidden" value=<%=@current_user.id%>/>
-                                <div class="input-group">
-                                <input id="message_content" name="message[content]" size="30" type="text" class="form-control input-sm" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-warning btn-sm" id="btn-chat">
-                                        Send
-                                    </button>
-                                </span>
-                                </div>
-                                </form>
-                            </div>
-
-                        </div>
-                        <!-- /.panel-footer -->
-                    </div>
-                    <!-- /.panel .chat-panel -->
-                </div>
                 <!-- /.col-lg-4 -->
             </div>
             <!-- /.row -->
-        </div>
+        
         <!-- /#page-wrapper -->
 
     </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <%=javascript_include_tag "bootstrap.min.js"%>
 
 
 </body>
