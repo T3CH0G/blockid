@@ -15,7 +15,7 @@ Professor.create(name: 'UC Berkeley', email: 'ucb@berkeley.edu')
 Section.create(start: DateTime.parse('4th Nov 2018 00:00:00'), end: DateTime.parse('7th Oct 2017 11:00:00'), professor_id: 1, name:'CS 61A')
 
 
-Checkin.create(student_id: 1, professor_id: 1, time: DateTime.parse('28th Sep 2017 09:58:00'),status: "Birth1" , hashkey: "0", previous_hashkey:"0")
+Checkin.create(student_id: 1, professor_id: 1, time: DateTime.parse('4th Nov 2018 00:00:00'),status: "Birth1" , hashkey: "0", previous_hashkey:"0")
 
 
 User.create(
